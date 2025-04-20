@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Registration</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+            color: #333;
+        }
+        header {
+            text-align: center;
+            padding: 20px;
+            background-color: #9b4dff;
+            color: #ffffff;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        form {
+            background-color: #9b4dff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #ffffff;
+        }
+        input {
+            width: calc(100% - 20px);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+        button {
+            display: inline-block;
+            background-color: #686b68;
+            color: #ffffff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #6aa96b;
+        }
+        .success-message {
+            text-align: center;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+<body>
+    <header>
+        <h1>Student Registration Form</h1>
+    </header>
+
+    <main>
+        <div id="invoice">
+            <form id="student-registration-form">
+                <div class="form-group">
+                    <label for="student-name">Student Name:</label>
+                    <input type="text" id="student-name" name="studentName" placeholder="Enter Student Name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email ID:</label>
+                    <input type="email" id="email" name="email" placeholder="Enter Email ID" required>
+                </div>
+                <div class="form-group">
+                    <label for="department-name">Department Name:</label>
+                    <input type="text" id="department-name" name="departmentName" placeholder="Enter Department Name" required>
+                </div>
+                <div class="form-group">
+                    <label for="college-name">College Name:</label>
+                    <input type="text" id="college-name" name="collegeName" placeholder="Enter College Name" required>
+                </div>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+        <div id="success-message" class="success-message"></div>
+        <button onclick="download_pdf()">Download PDF</button>
+    </main>
+
+    <script>
+        const form = document.getElementById('student-registration-form');
+        const resultDiv = document.getElementById('success-message');
+
+        // Submit form logic
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+
+            const payload = {
+                student_name: data['studentName'],
+                email_id: data['email'],
+                department_name: data['departmentName'],
+                college_name: data['collegeName']
+            };
+
+            try {
+                const response = await fetch('http://localhost:4000/api/student-registration', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload),
+                });
+
+                if (!response.ok) {
+                    const errorResult = await response.json();
+                    throw new Error(errorResult.message || 'Failed to register. Please try again.');
+                }
+
+                const result = await response.json();
+                resultDiv.textContent = result.message || 'Student registered successfully!';
+                resultDiv.style.color = 'green';
+            } catch (error) {
+                resultDiv.textContent = error.message;
+                resultDiv.style.color = 'red';
+            }
+        });
+
+        // PDF download logic
+        function download_pdf() {
+            const pdfElement = document.getElementById("invoice");
+            const options = {
+                margin: 1,
+                filename: 'Student_Registration_Form.pdf',
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+            };
+            html2pdf().set(options).from(pdfElement).save();
+        }
+    </script>
+</body>
+</html>

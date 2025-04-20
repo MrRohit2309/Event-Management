@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organizer Head Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Same styling as before */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom, #f8f9fc, #e0e0e0);
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 1rem;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px #6a1b9a;
+        }
+
+        h1 {
+            text-align: center;
+            color: #6a1b9a;
+            margin-bottom: 2rem;
+        }
+
+        .greeting {
+            font-size: 1.2rem;
+            color: #6a1b9a;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .section {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            border-radius: 8px;
+            background: #f8f9fc;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .label {
+            color: #6a1b9a;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        ul.stats li, ul.team li, ul.shops li {
+            margin-bottom: 1rem;
+            background: #f8f9fc;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .button {
+            display: inline-block;
+            padding: 0.7rem 1.2rem;
+            background: #6a1b9a;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: background 0.3s;
+        }
+
+        .button:hover {
+            background: #8e24aa;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .section {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="greeting" id="greeting"></div>
+        <h1>Organizer Head Dashboard</h1>
+
+        <!-- Ongoing Events Section -->
+        <div class="section">
+            <h2>Upcoming Events</h2>
+            <div id="events-list"></div>
+        </div>
+
+        <!-- Registered Students Section -->
+        <div class="section">
+            <h2 class="label"><i class="fas fa-user-graduate"></i> Registered Students</h2>
+            <ul class="stats">
+                <li>Sports Meet: 120 Students</li>
+                <li>Cultural Fest: 250 Students</li>
+                <li>Hackathon: 85 Students</li>
+            </ul>
+        </div>
+
+        <!-- Plan a Future Event Section -->
+        <div class="section">
+            <h2 class="label"><i class="fas fa-plus-circle"></i> Plan a Future Event</h2>
+            <a href="Plan_Future_Events.html" class="button">Add Event</a>
+        </div>
+
+        <!-- Management Team Section -->
+        <div class="section">
+            <h2 class="label"><i class="fas fa-users"></i> Management Team</h2>
+            <input type="email" id="organizer-email" placeholder="Enter organizer's email" />
+            <button onclick="fetchManagementTeam()">Fetch Management Team</button>
+            <ul class="team" id="team-list"></ul>
+        </div>
+
+        <!-- View Shops Section -->
+        <div class="section">
+            <h2 class="label"><i class="fas fa-store"></i> View Shops</h2>
+            <button id="view-shops-btn" class="button">View Shops</button>
+            <ul class="shops" id="shops-list" style="display: none;">
+                <li>
+                    <strong>Shop Name:</strong> Elegant Décor<br>
+                    <strong>Contact:</strong> +91 9876543210<br>
+                    <strong>Services:</strong> Decoration, Lighting
+                </li>
+                <li>
+                    <strong>Shop Name:</strong> Party Beats<br>
+                    <strong>Contact:</strong> +91 9123456789<br>
+                    <strong>Services:</strong> DJ, Sound System
+                </li>
+                <li>
+                    <strong>Shop Name:</strong> Royal Catering<br>
+                    <strong>Contact:</strong> +91 9988776655<br>
+                    <strong>Services:</strong> Catering, Food Stalls
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const { email } = getParams();
+            const greeting = email ? `Hello, Organizer (${email})!` : 'Hello, Organizer!';
+            document.getElementById('greeting').innerText = greeting;
+            fetchEvents();
+
+            // Add functionality for the "View Shops" button
+            const viewShopsBtn = document.getElementById('view-shops-btn');
+            const shopsList = document.getElementById('shops-list');
+
+            viewShopsBtn.addEventListener('click', () => {
+                // Toggle the visibility of the shops list when the button is clicked
+                if (shopsList.style.display === 'none') {
+                    shopsList.style.display = 'block';
+                } else {
+                    shopsList.style.display = 'none';
+                }
+            });
+        });
+
+        function getParams() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return {
+                college_name: urlParams.get('college_name'),
+                email: urlParams.get('email'),
+                key: urlParams.get('key'),
+                role: urlParams.get('role')
+            };
+        }
+
+        async function fetchEvents() {
+            const { college_name } = getParams();
+
+            if (!college_name) {
+                alert('College name is required!');
+                return;
+            }
+
+            try {
+                const response = await fetch(`http://localhost:3000/api/Teacher-Dashboard/events?college_name=${college_name}`);
+                const data = await response.json();
+                if (data.success) {
+                    displayEvents(data.events);
+                } else {
+                    document.getElementById('events-list').innerHTML = '<p>No upcoming events found for this college.</p>';
+                }
+            } catch (error) {
+                console.error('Error fetching events:', error);
+                alert("Failed to fetch events. Please try again later.");
+            }
+        }
+
+        function displayEvents(events) {
+            const eventsList = document.getElementById('events-list');
+            eventsList.innerHTML = '';
+
+            events.forEach(event => {
+                const eventCard = document.createElement('div');
+                eventCard.className = 'event-card';
+                eventCard.innerHTML = `
+                    <h3>${event.event_name}</h3>
+                    <p>Date: ${new Date(event.event_date).toLocaleDateString()}</p>
+                    <p>Location: ${event.event_location}</p>
+                    <p>Description: ${event.event_description}</p>
+                `;
+                eventsList.appendChild(eventCard);
+            });
+        }
+    </script>
+</body>
+</html>

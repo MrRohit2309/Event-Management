@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retailer Registration</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+            color: #333;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px;
+            background-color: #9b4dff;
+            color: #ffffff;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        /* Form Styles */
+        main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        form {
+            background-color: #9b4dff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #ffffff;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+            margin-top: 5px;  /* Added margin for spacing */
+            box-sizing: border-box;  /* Ensures padding doesn't affect the width */
+        }
+
+        .checkbox-group {
+            margin-bottom: 15px;
+        }
+
+        .checkbox-group label {
+            margin-left: 5px;
+            font-weight: normal;
+            color: #ffffff;
+        }
+
+        button {
+            display: inline-block;
+            background-color: #686b68;
+            color: #ffffff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #6aa96b;
+        }
+
+        .message {
+            font-size: 1rem;
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Register Your Shop</h1>
+    </header>
+    <main>
+        <form id="retailer-form">
+            <div class="form-group">
+                <label for="shop-name">Shop Name:</label>
+                <input type="text" id="shop-name" name="shopName" placeholder="Enter Shop Name" required>
+            </div>
+            <div class="form-group">
+                <label for="owner-name">Owner's Name:</label>
+                <input type="text" id="owner-name" name="ownerName" placeholder="Enter Owner's Name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email ID:</label>
+                <input type="email" id="email" name="email" placeholder="Enter Email ID" required>
+            </div>
+            <div class="form-group">
+                <label for="contact-number">Contact Number:</label>
+                <input type="tel" id="contact-number" name="contactNumber" placeholder="Enter Contact Number" required>
+            </div>
+            <div class="checkbox-group">
+                <label>Select Services Offered:</label>
+                <input type="checkbox" id="catering" name="services" value="Catering">
+                <label for="catering">Catering</label><br>
+                <input type="checkbox" id="dj" name="services" value="DJ">
+                <label for="dj">DJ</label><br>
+                <input type="checkbox" id="decoration" name="services" value="Decoration">
+                <label for="decoration">Decoration</label>
+            </div>
+            <div class="form-group">
+                <label for="password">Create Password:</label>
+                <input type="password" id="password" name="password" placeholder="Enter Password" required>
+            </div>
+            <div class="form-group">
+                <label for="confirm-password">Confirm Password:</label>
+                <input type="password" id="confirm-password" name="confirmPassword" placeholder="Confirm Password" required>
+            </div>
+            <div class="message" id="message"></div>
+            <button type="button" onclick="registerShop()">Register</button>
+        </form>
+    </main>
+    <script>
+        function registerShop() {
+            const shopName = document.getElementById('shop-name').value;
+            const ownerName = document.getElementById('owner-name').value;
+            const email = document.getElementById('email').value;
+            const contactNumber = document.getElementById('contact-number').value;
+            const services = [];
+            if (document.getElementById('catering').checked) services.push('Catering');
+            if (document.getElementById('dj').checked) services.push('DJ');
+            if (document.getElementById('decoration').checked) services.push('Decoration');
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            const messageElement = document.getElementById('message');
+
+            // Check if passwords match
+            if (password !== confirmPassword) {
+                messageElement.textContent = "Passwords do not match!";
+                return;
+            }
+
+            const retailerData = {
+                shop_name: shopName,
+                owner_name: ownerName,
+                email,
+                contact_number: contactNumber,
+                services: services.join(', '), // Combine services into a comma-separated string
+                password
+            };
+
+            // Make a POST request to the backend to register the retailer
+            fetch('http://localhost:3000/api/retailers-registration/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(retailerData),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    messageElement.textContent = data.error;
+                    messageElement.style.color = 'red';
+                } else if (data.message) {
+                    messageElement.textContent = data.message;
+                    messageElement.style.color = 'green';
+                    document.getElementById('retailer-form').reset(); // Reset the form
+                }
+            })
+            .catch(error => {
+                messageElement.textContent = 'An error occurred!';
+                messageElement.style.color = 'red';
+            });
+        }
+    </script>
+</body>
+</html>

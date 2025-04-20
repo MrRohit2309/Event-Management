@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Check College Events</title>
+    
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+            color: #333;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px;
+            background-color: #9b4dff;
+            color: #ffffff;
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 0;
+            border: 0;
+        }
+
+        /* Search Bar Styles */
+        .search-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+            gap: 10px;
+        }
+
+        .search-container input {
+            padding: 10px;
+            width: 300px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin: 0;
+        }
+
+        .search-container button {
+            padding: 10px 20px;
+            background-color: #9b4dff;
+            color: #ffffff;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 0;
+        }
+
+        .search-container button:hover {
+            background-color: rgba(0, 0, 0, 0.1);
+            transform: scale(1.05);
+        }
+
+        /* Filter and Download button Styles */
+        .filter-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .filter-container select,
+        .filter-container button {
+            padding: 10px;
+            font-size: 1rem;
+            border-radius: 5px;
+            margin: 0;
+        }
+
+        .filter-container button {
+            background-color: #9b4dff;
+            color: #ffffff;
+            border: none;
+            cursor: pointer;
+        }
+
+        .filter-container select {
+            border: 1px solid #ccc;
+            background-color: #ffffff;
+        }
+
+        .filter-container button:hover {
+            background-color: rgba(0, 0, 0, 0.1);
+            transform: scale(1.05);
+        }
+
+        /* Autocomplete Dropdown */
+        .autocomplete-list {
+            position: absolute;
+            top: 40px;
+            left: 0;
+            width: 300px;
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            z-index: 1000;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+
+        .autocomplete-list div {
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .autocomplete-list div:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Table Styles */
+        table {
+            width: 80%;
+            margin: 30px auto;
+            border-collapse: collapse;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #000000;
+        }
+
+        th {
+            background-color: #9b4dff;
+            color: #ffffff;
+            font-size: 1.1rem;
+        }
+
+        td {
+            font-size: 1rem;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        /* Message Styles */
+        .message {
+            text-align: center;
+            font-size: 1.2rem;
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+</head>
+<body>
+    
+    <header>
+                <h1>Check Events Happening in Colleges</h1>
+    </header>
+
+    <div class="search-container">
+        <input type="text" id="search-input" placeholder="Search by College Name..." oninput="showSuggestions()">
+        <div id="autocomplete-list" class="autocomplete-list"></div>
+        <button onclick="filterEvents()">Search</button>
+        <div class="filter-container">
+            <div>
+                <label for="event-type">Filter by Event Type:</label>
+                <select id="event-type" onchange="filterEvents()">
+                    <option value="">All</option>
+                    <option value="inter">Inter-College</option>
+                    <option value="everybody">For Everybody</option>
+                </select>
+            </div>
+            
+        </div>
+    </div>
+    
+    <div id="invoice">
+    <div class="message" id="message"></div>
+
+    <table id="events-table">
+        <thead>
+            <tr>
+                <th>Event Name</th>
+                <th>College Name</th>
+                <th>Date</th>
+                <th>Location</th>
+                <th>Event Type</th>
+                <th>Register</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Cultural Fest</td>
+                <td>Dr.Babasaheb Ambedkar Technological University</td>
+                <td>2025-02-15</td>
+                <td>Main Auditorium</td>
+                <td>Inter-College</td>
+                <td><a href="http://127.0.0.1:5500/Final%20Project/studentRegistration.html">Register</a></td>
+            </tr>
+            <tr>
+                <td>Tech Symposium</td>
+                <td>Symbosis College</td>
+                <td>2025-03-05</td>
+                <td>Tech Hall</td>
+                <td>For Everybody</td>
+                <td><a href="http://127.0.0.1:5500/Final%20Project/studentRegistration.html">Register</a></td>
+            </tr>
+            <tr>
+                <td>Sports Meet</td>
+                <td>VIT College</td>
+                <td>2025-04-10</td>
+                <td>Sports Ground</td>
+                <td>Inter-College</td>
+                <td><a href="http://127.0.0.1:5500/Final%20Project/studentRegistration.html">Register</a></td>
+            </tr>
+            <tr>
+                <td>Innovation Summit</td>
+                <td>COEP University</td>
+                <td>2025-05-20</td>
+                <td>Conference Room</td>
+                <td>For Everybody</td>
+                <td><a href="http://127.0.0.1:5500/Final%20Project/studentRegistration.html">Register</a></td>
+            </tr>
+            <tr>
+                <td>Art Exhibition</td>
+                <td>VJTI College</td>
+                <td>2025-06-25</td>
+                <td>Gallery Hall</td>
+                <td>For Everybody</td>
+                <td><a href="http://127.0.0.1:5500/Final%20Project/studentRegistration.html">Register</a></td>
+            </tr>
+        </tbody>
+    </table>
+    
+</div>
+    <script>
+
+        function showSuggestions() {
+            const input = document.getElementById('search-input');
+            const list = document.getElementById('autocomplete-list');
+            const filter = input.value.toLowerCase();
+            list.innerHTML = '';
+
+            const collegeList = [
+                "Dr.Babasaheb Ambedkar Technological University",
+                "Symbosis College",
+                "VIT College",
+                "COEP University",
+                "VJTI College",
+                "IIT College",
+                "MIT Engineering College"
+            ];
+
+            if (filter.length > 0) {
+                const matches = collegeList.filter(college => college.toLowerCase().includes(filter));
+                matches.forEach(college => {
+                    const item = document.createElement('div');
+                    item.textContent = college;
+                    item.onclick = () => {
+                        input.value = college;
+                        list.innerHTML = '';
+                    };
+                    list.appendChild(item);
+                });
+
+                if (matches.length === 0) {
+                    const noMatch = document.createElement('div');
+                    noMatch.textContent = 'No matching colleges found';
+                    list.appendChild(noMatch);
+                }
+            }
+        }
+
+        function filterEvents() {
+            const searchInput = document.getElementById('search-input').value.toLowerCase();
+            const eventType = document.getElementById('event-type').value;
+            const table = document.getElementById('events-table');
+            const rows = table.getElementsByTagName('tr');
+            const messageElement = document.getElementById('message');
+            let found = false;
+
+            for (let i = 1; i < rows.length; i++) {
+                const cells = rows[i].getElementsByTagName('td');
+                const collegeName = cells[1] ? cells[1].textContent.toLowerCase() : '';
+                const eventCategory = cells[4] ? cells[4].textContent.toLowerCase() : '';
+                
+                const matchesCollege = collegeName.indexOf(searchInput) > -1;
+                const matchesEventType = eventType === "" || eventCategory.indexOf(eventType) > -1;
+
+                if (matchesCollege && matchesEventType) {
+                    rows[i].style.display = '';
+                    found = true;
+                } else {
+                    rows[i].style.display = 'none';
+                }
+            }
+
+            if (!found) {
+                messageElement.textContent = 'No events found!';
+            } else {
+                messageElement.textContent = '';
+            }
+        }
+    </script>
+
+    <script type="text/javascript">
+        function download_pdf()
+        {
+            const Pdf = document.getElementById("invoice");
+            html2pdf().from(Pdf).save();
+        }
+    </script>
+</body>
+</html>

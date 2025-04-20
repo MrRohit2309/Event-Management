@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Form</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f6fdff;
+            color: #333;
+            transition: background-color 0.5s;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px;
+            background-color: #B3C8CF;
+            color: #000000;
+            font-size: 2rem;
+            font-weight: bold;
+            transition: transform 0.5s;
+        }
+
+        header:hover {
+            transform: scale(1.1);
+        }
+
+        /* Form Styles */
+        main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            height: 80vh;
+            animation: fadeIn 1s ease;
+        }
+
+        form {
+            background-color: #B3C8CF;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+            animation: slideUp 1s ease-out;
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            0% {
+                transform: translateY(30px);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        textarea {
+            resize: none;
+        }
+
+        .checkbox-group {
+            margin: 10px 0;
+        }
+
+        .checkbox-group label {
+            display: inline;
+            font-weight: normal;
+            margin-left: 5px;
+        }
+
+        button {
+            display: inline-block;
+            background-color: #686b68;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #6aa96b;
+        }
+
+        /* Additional styles for page name input */
+        .page-names-container {
+            margin-top: 30px;
+            display: none; /* Initially hidden */
+            animation: fadeIn 1s ease;
+        }
+
+        .page-names-container input {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Login to Organization</h1>
+    </header>
+    <main>
+        <form id="login-form">
+            <div class="form-group">
+                <label for="college-name">College Name:</label>
+                <input type="text" id="college-name" name="collegeName" placeholder="Enter College Name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email ID:</label>
+                <input type="email" id="email" name="email" placeholder="Enter Email ID" required>
+            </div>
+            <div class="form-group">
+                <label for="key">Key:</label>
+                <input type="text" id="key" name="key" placeholder="Enter Key" required>
+            </div>
+            <div class="form-group checkbox-group">
+                <input type="radio" id="role-organizer" name="role" value="Organizer" required>
+                <label for="role-organizer">Organizer Head</label>
+                <br>
+                <input type="radio" id="role-teacher" name="role" value="Teacher" required>
+                <label for="role-teacher">Teacher</label>
+                <br>
+                <input type="radio" id="role-management" name="role" value="Management" required>
+                <label for="role-management">Management Team Member</label>
+            </div>
+            <button type="button" onclick="login()">Login</button>
+        </form>
+    </main>
+
+    <script>
+        function login() {
+            const collegeName = document.getElementById('college-name').value;
+            const email = document.getElementById('email').value;
+            const key = document.getElementById('key').value;
+            const role = document.querySelector('input[name="role"]:checked').value;
+
+            // Sending the data to the server to verify login
+            fetch('http://localhost:3000/api/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ name: collegeName, college_name: collegeName, email_id: email, key: key, role: role })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // If login is successful, redirect to the respective page
+                    let redirectPage = '';
+
+                    // Determine the page to redirect based on the role
+                    if (role === 'Organizer') {
+                        redirectPage = 'Organizer_Head.html';
+                    } else if (role === 'Teacher') {
+                        redirectPage = 'TeachersDashboard.html';
+                    } else if (role === 'Management') {
+                        redirectPage = 'EventManagementTeam.html';
+                    }
+
+                    // Redirect to the respective page
+                    window.location.href = redirectPage;
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(err => {
+                console.error('Error during login:', err);
+                alert('An error occurred. Please try again later.');
+            });
+        }
+    </script>
+</body>
+</html>

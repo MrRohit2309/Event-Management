@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Event Management</title>
+  <style>
+    /* General Styles */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #ffffff;
+      color: #333;
+      transition: background-color 0.5s ease, color 0.5s ease;
+    }
+
+    header {
+      text-align: center;
+      padding: 20px;
+      background: #9b4dff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    header:hover {
+      transform: scale(1.03);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2.5rem;
+      color: #ffffff;
+    }
+
+    .container {
+      padding: 20px;
+    }
+
+    /* Section Styling */
+    section {
+      background: #ffffff;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      color: #9b4dff;
+    }
+
+    /* Event Cards */
+    .event-card {
+      background: #f9f9f9;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 15px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .event-card:hover {
+      transform: scale(1.05);
+    }
+
+    .event-card h3 {
+      color: #9b4dff;
+      margin: 0;
+      font-size: 1.8rem;
+    }
+
+    .event-card p {
+      margin: 8px 0;
+    }
+
+    .event-date, .event-location {
+      font-weight: bold;
+    }
+
+    /* Button Styling */
+    button {
+      background: #9b4dff;
+      color: white;
+      padding: 8px 12px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background: #7a38e0;
+    }
+
+    /* Chatbox Styling */
+    .chatbox {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 300px;
+      background: #ffffff;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      overflow: hidden;
+      transition: transform 0.3s ease, background-color 0.5s ease;
+    }
+
+    .chatbox:hover {
+      transform: translateY(-5px);
+      background: #f0f8ff;
+    }
+
+    .chatbox-header {
+      background-color: #9b4dff;
+      color: #ffffff;
+      padding: 10px;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .chatbox-messages {
+      max-height: 200px;
+      overflow-y: auto;
+      padding: 10px;
+      background-color: #ffffff;
+    }
+
+    .chatbox-messages .user {
+      text-align: right;
+      margin-bottom: 10px;
+      color: #2d3436;
+    }
+
+    .chatbox-messages .bot {
+      text-align: left;
+      margin-bottom: 10px;
+      color: #636e72;
+    }
+
+    .chatbox-input {
+      display: flex;
+      padding: 10px;
+      background-color: #f1f2f6;
+    }
+
+    .chatbox-input input {
+      flex: 1;
+      padding: 8px;
+      border: 1px solid #dcdde1;
+      border-radius: 4px;
+      outline: none;
+      transition: border 0.3s ease;
+    }
+
+    .chatbox-input input:focus {
+      border-color: #74b9ff;
+    }
+
+    .chatbox-input button {
+      margin-left: 10px;
+      padding: 8px 15px;
+      border: none;
+      background-color: #9b4dff;
+      color: #ffffff;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .chatbox-input button:hover {
+      background-color: #7a38e0;
+    }
+
+    /* To-Do List Styles */
+    .todo {
+      padding: 20px;
+    }
+
+    .todo ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .todo li {
+      padding: 10px;
+      margin: 5px 0;
+      background: #f0f8ff;
+      border-radius: 5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .todo li:hover {
+      background: #dbeaff;
+    }
+
+    .todo button {
+      background: #ff6b81;
+      border: none;
+      padding: 5px 10px;
+      color: #fff;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .todo button:hover {
+      background: #ff4c61;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1> Management Team Dashboard</h1>
+    <p>Welcome</p>
+  </header>
+
+  <div class="container">
+    <!-- Upcoming Events Section -->
+    <section>
+      <h2>Upcoming Events</h2>
+      <div id="events-list">
+        <!-- Event Cards will be added dynamically here -->
+      </div>
+    </section>
+
+    <!-- To-Do List Section -->
+    <section class="todo">
+      <h2>To-Do List</h2>
+      <input type="text" id="todo-input" placeholder="Add a new task..." style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc;">
+      <ul id="todo-list">
+        <li>
+          Prepare materials for the Annual Meeting
+          <button>Remove</button>
+        </li>
+        <li>
+          Send invitations for the Workshop on Event Planning
+          <button>Remove</button>
+        </li>
+        <li>
+          Book refreshments for the Networking Event
+          <button>Remove</button>
+        </li>
+      </ul>
+    </section>
+  </div>
+
+  <script>
+    // Function to retrieve URL parameters
+    function getParams() {
+        const urlParams = new URLSearchParams(window.location.search);
+        return {
+            college_name: urlParams.get('college_name'),
+            email: urlParams.get('email'),
+            key: urlParams.get('key'),
+            role: urlParams.get('role')
+        };
+    }
+
+    // Function to fetch events from the backend
+    function fetchEvents() {
+        const { college_name } = getParams();
+
+        if (!college_name) {
+            alert('College name is required!');
+            return;
+        }
+
+        // Corrected the fetch URL by adding backticks
+        fetch(`http://localhost:3000/api/Teacher-Dashboard/events?college_name=${college_name}`)
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    displayEvents(data.events);
+                } else {
+                    document.getElementById('events-list').innerHTML = '<p>No upcoming events found for this college.</p>';
+                }
+            })
+            .catch(err => {
+                console.error('Error fetching events:', err);
+                alert("Failed to fetch events. Please try again later.");
+            });
+    }
+
+    // Function to display events
+    function displayEvents(events) {
+        const eventsList = document.getElementById('events-list');
+        eventsList.innerHTML = ''; // Clear existing events
+
+        events.forEach(event => {
+            const eventCard = document.createElement('div');
+            eventCard.className = 'event-card';
+            eventCard.innerHTML = `
+                <h3>${event.event_name}</h3>
+                <p class="event-date">Date: ${new Date(event.event_date).toLocaleDateString()}</p>
+                <p class="event-location">Location: ${event.event_location}</p>
+                <p>Description: ${event.event_description}</p>
+            `;
+            eventsList.appendChild(eventCard);
+        });
+    }
+
+    // Call the fetchEvents function on page load
+    window.onload = fetchEvents;
+  </script>
+</body>
+</html>

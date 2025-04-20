@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retailer Dashboard</title>
+    <style>
+        /* General styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+        }
+
+        header {
+            background-color: #9b4dff;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #9b4dff;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .card h3 {
+            margin-bottom: 10px;
+            color: #333333;
+            font-size: 1.2rem;
+        }
+
+        .card p {
+            color: #555555;
+            font-size: 1rem;
+            margin: 5px 0;
+        }
+
+        .message-box {
+            background-color: #eaf4ff;
+            border-left: 4px solid #9b4dff;
+            padding: 15px;
+            font-size: 1rem;
+            color: #9b4dff;
+            border-radius: 5px;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        footer {
+            margin-top: 40px;
+            text-align: center;
+            padding: 15px;
+            background-color: #f1f1f1;
+            color: #555;
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: #9b4dff;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Retailer Dashboard</h1>
+    </header>
+
+    <div class="container">
+        <h2>Welcome to Your Dashboard</h2>
+
+        <div class="grid">
+            <!-- Shop Details -->
+            <div class="card">
+                <h3>Shop Details</h3>
+                <p><strong>Address:</strong> <span id="shop-address">Loading...</span></p>
+                <p><strong>Contact No:</strong> <span id="shop-contact">Loading...</span></p>
+            </div>
+
+            <!-- Profit Information -->
+            <div class="card">
+                <h3>Profit Information</h3>
+                <p><strong>Monthly Profit:</strong> <span id="monthly-profit">Loading...</span></p>
+                <p><strong>Annual Profit:</strong> <span id="annual-profit">Loading...</span></p>
+            </div>
+
+            <!-- Message Section -->
+            <div class="card">
+                <h3>Message</h3>
+                <div class="message-box" id="message-display">
+                    I want to enquire about catering Services
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2025 Retailer Dashboard <a href="#">Your Company</a>.
+    </footer>
+
+    <script>
+        // Mock data for the dashboard
+        const retailerData = {
+            shopAddress: "123 Green Market, Springfield",
+            contactNumber: "9765432121",
+            profit: {
+                monthly: "$5,000",
+                annual: "$60,000",
+            }
+        };
+
+        // Function to update the dashboard with mock data
+        function updateDashboard() {
+            document.getElementById("shop-address").textContent = retailerData.shopAddress;
+            document.getElementById("shop-contact").textContent = retailerData.contactNumber;
+            document.getElementById("monthly-profit").textContent = retailerData.profit.monthly;
+            document.getElementById("annual-profit").textContent = retailerData.profit.annual;
+        }
+
+        // Initial load
+        updateDashboard();
+    </script>
+</body>
+</html>

@@ -1,0 +1,157 @@
+/* Global Styles */
+body {
+    font-family: 'Roboto', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f6fdff;
+    color: #000000;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Align content at the top */
+    height: 100vh;
+    overflow-x: hidden; /* Prevent horizontal overflow */
+}
+
+.container {
+    max-width: 1000px; /* Limit maximum width to fit well on laptops */
+    width: 100%;
+    padding: 40px;
+    background: #f6fdff;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    box-sizing: border-box; /* Ensure padding doesn't affect the overall width */
+    margin: 20px; /* Add some margin to prevent container from touching the screen edges */
+}
+
+h1 {
+    color: #000000;
+    font-size: 2.5em;
+    margin-bottom: 30px;
+    font-weight: 700;
+}
+
+.section {
+    margin-bottom: 30px;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #B3C8CF;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.section:hover {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+.label {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #000000;
+    border-bottom: 2px solid #000000;
+    padding-bottom: 8px;
+    margin-bottom: 20px;
+}
+
+.button {
+    background-color: #686b68;
+    color: #ffffff;
+    padding: 12px 30px;
+    font-size: 1.1em;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    text-decoration: none;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.button:hover {
+    background-color: #6aa96b;
+    transform: translateY(-3px);
+}
+
+.events, .stats, .team, .expenses {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    font-size: 1.1em;
+    text-align: left;
+}
+
+.events li, .stats li, .team li, .expenses li {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    padding: 15px;
+    transition: all 0.3s ease;
+}
+
+.events li:hover, .stats li:hover, .team li:hover, .expenses li:hover {
+    background-color: #f9f9f9;
+    border-color: #ccc;
+}
+
+#emergency-message {
+    font-size: 1.2em;
+    color: red;
+    margin-top: 20px;
+}
+
+@media (max-width: 1024px) {
+    .container {
+        padding: 20px; /* Adjust padding on smaller screens */
+    }
+
+    h1 {
+        font-size: 2.2em; /* Slightly smaller font size */
+    }
+
+    .button {
+        font-size: 1em;
+        padding: 10px 25px;
+    }
+
+    .section {
+        padding: 15px;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 15px; /* Further reduce padding */
+    }
+
+    h1 {
+        font-size: 2em; /* Smaller font size */
+    }
+
+    .button {
+        font-size: 0.9em;
+        padding: 10px 20px;
+    }
+
+    .section {
+        padding: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 10px; /* Reduce padding on mobile devices */
+    }
+
+    h1 {
+        font-size: 1.8em; /* Make the title smaller */
+    }
+
+    .button {
+        font-size: 0.9em;
+        padding: 8px 20px;
+    }
+
+    .section {
+        padding: 10px;
+    }
+}

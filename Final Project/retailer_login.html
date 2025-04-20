@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retailer Login</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+            color: #333;
+        }
+        header {
+            text-align: center;
+            padding: 20px;
+            background-color: #9b4dff;
+            color: #ffffff;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        /* Form Styles */
+        main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        form {
+            background-color: #9b4dff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #ffffff;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+            margin-top: 5px;  /* Added margin for spacing */
+            box-sizing: border-box;  /* Ensures padding doesn't break the width */
+        }
+        button {
+            display: inline-block;
+            background-color: #686b68;
+            color: #ffffff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #6aa96b;
+        }
+        .message {
+            font-size: 1rem;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        .message.error {
+            color: red;
+        }
+        .message.success {
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Retailer Login</h1>
+    </header>
+    <main>
+        <form id="login-form">
+            <div class="form-group">
+                <label for="shop-name">Shop Name:</label>
+                <input type="text" id="shop-name" name="shopName" placeholder="Enter Shop Name" required>
+            </div>
+            <div class="form-group">
+                <label for="owner-name">Owner's Name:</label>
+                <input type="text" id="owner-name" name="ownerName" placeholder="Enter Owner's Name" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" placeholder="Enter Password" required>
+            </div>
+            <div class="message" id="message"></div>
+            <button type="button" onclick="loginRetailer()">Login</button>
+        </form>
+    </main>
+    <script>
+        async function loginRetailer() {
+            const shopName = document.getElementById('shop-name').value;
+            const ownerName = document.getElementById('owner-name').value;
+            const password = document.getElementById('password').value;
+            const messageElement = document.getElementById('message');
+
+            // Validate input
+            if (!shopName || !ownerName || !password) {
+                messageElement.textContent = "All fields are required!";
+                messageElement.className = "message error";
+                return;
+            }
+
+            console.log('Sending login request with:', { shopName, ownerName, password });
+
+            try {
+                const response = await fetch('http://localhost:3000/api/retailer-login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                    },
+                    body: JSON.stringify({ shopName, ownerName, password }),
+                    mode: 'cors',  // Explicitly setting the mode to 'cors'
+                });
+
+                console.log('Response received:', response);
+
+                // Log the response body
+                const responseBody = await response.json();
+                console.log('Response Body:', responseBody);
+
+                if (!response.ok) {
+                    messageElement.textContent = responseBody.message || "Error: " + response.statusText;
+                    messageElement.className = "message error";
+                    return;
+                }
+
+                const data = responseBody;
+
+                if (data.success) {
+                    messageElement.textContent = data.message || "Login successful!";
+                    messageElement.className = "message success";
+
+                    // Save retailer details and redirect
+                    setTimeout(() => {
+                        localStorage.setItem('retailerData', JSON.stringify(data.retailer));
+                        window.location.href = "retailer-dashboard.html";
+                    }, 1500);
+                } else {
+                    messageElement.textContent = data.message || "Login failed.";
+                    messageElement.className = "message error";
+                }
+            } catch (error) {
+                console.log('Error occurred during login:', error);
+                messageElement.textContent = "An error occurred. Please try again later.";
+                messageElement.className = "message error";
+            }
+        }
+    </script>
+</body>
+</html>

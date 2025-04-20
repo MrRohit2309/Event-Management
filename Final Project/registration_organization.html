@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organization Registration</title>
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('registration_organization_background.png') no-repeat center center fixed;
+            background-size: cover;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px;
+            background: #6a1b9a; /* Changed to your specified color */
+            color: #ffffff; /* Changed to white */
+            font-size: 2rem;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Kept the same */
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        /* Form Container */
+        main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            min-height: calc(100vh - 80px);
+            backdrop-filter: blur(5px);
+        }
+
+        form {
+            background: #f8f9fc; /* Changed to your specified color */
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1); /* Kept the same */
+            max-width: 700px;
+            width: 100%;
+            position: relative;
+        }
+
+        /* Form Field Styles */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        input, textarea {
+            width: calc(100% - 20px);
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 1rem;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, textarea:focus {
+            border-color: #6a1b9a; /* Changed to your specified color */
+            outline: none;
+        }
+
+        textarea {
+            resize: none;
+        }
+
+        /* Button Styles */
+        button {
+            display: inline-block;
+            background: #6a1b9a; /* Changed to your specified color */
+            color: #ffffff; /* Changed to white */
+            padding: 14px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        button:hover {
+            background: rgba(106, 27, 154, 0.8); /* Changed to a slightly lighter version of your color */
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        #teacher-key, #management-key {
+            font-family: monospace;
+            background-color: #f8f9fc; /* Changed to your specified color */
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            white-space: pre-wrap;
+            word-break: break-word;
+            width: calc(100% - 20px);
+            box-sizing: border-box;
+            font-size: 1rem;
+            color: #333;
+            margin-top: 8px;
+        }
+
+        .success-message {
+            text-align: center;
+            color: #6a1b9a; /* Changed to your specified color */
+            font-weight: bold;
+            margin-top: 20px;
+            font-size: 1.1rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            header {
+                font-size: 1.6rem;
+            }
+
+            form {
+                padding: 20px;
+                width: 100%;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Register Your Organization</h1>
+    </header>
+    <main>
+        <form id="registration-form">
+            <div class="form-group">
+                <label for="college-id">College ID:</label>
+                <input type="text" id="college-id" name="collegeId" placeholder="Enter College ID" required>
+            </div>
+            <div class="form-group">
+                <label for="college-name">College Name:</label>
+                <input type="text" id="college-name" name="collegeName" placeholder="Enter College Name" required>
+            </div>
+            <div class="form-group">
+                <label for="organization-head">Organization Head Name:</label>
+                <input type="text" id="organization-head" name="organizationHead" placeholder="Enter Organization Head Name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email ID:</label>
+                <input type="email" id="email" name="email" placeholder="Enter Email ID" required>
+            </div>
+            <div class="form-group">
+                <label for="contact-number">Contact Number:</label>
+                <input type="tel" id="contact-number" name="contactNumber" placeholder="Enter Contact Number" required>
+            </div>
+            <div class="form-group">
+                <label for="birth-date">Birth Date:</label>
+                <input type="date" id="birth-date" name="birthDate" required>
+            </div>
+            <div class="form-group">
+                <label for="teachers">List of Teachers (6):</label>
+                <textarea id="teachers" name="teachers" rows="3" placeholder="Enter names of 6 teachers, separated by commas" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="management-team">List of Management Team Members (6):</label>
+                <textarea id="management-team" name="managementTeam" rows="3" placeholder="Enter names of 6 management members, separated by commas" required></textarea>
+            </div>
+            <div class="form-group">
+                <label>Generated Key for Teachers:</label>
+                <div id="teacher-key"></div>
+            </div>
+            <div class="form-group">
+                <label>Generated Key for Management Team:</label>
+                <div id="management-key"></div>
+            </div>
+            <button type="button" onclick="generateKeys()">Generate Keys</button>
+            <button type="submit">Submit</button>
+        </form>
+        <div id="success-message" class="success-message"></div>
+    </main>
+    <script>
+        function generateKeys() {
+            const teacherKey = generateRandomKey();
+            document.getElementById('teacher-key').textContent = teacherKey;
+
+            const managementKey = generateRandomKey();
+            document.getElementById('management-key').textContent = managementKey;
+        }
+
+        function generateRandomKey() {
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            let key = '';
+            for (let i = 0; i < 10; i++) {
+                key += characters.charAt(Math.floor(Math.random() * characters.length));
+            }
+            return key;
+        }
+
+        document.getElementById('registration-form').addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+            const teacherKey = document.getElementById('teacher-key').textContent;
+            const managementKey = document.getElementById('management-key').textContent;
+
+            if (!teacherKey || !managementKey) {
+                alert('Please generate the keys before submitting!');
+                return;
+            }
+
+            const formData = {
+                college_id: document.getElementById('college-id').value,
+                college_name: document.getElementById('college-name').value,
+                head_name: document.getElementById('organization-head').value,
+                email_id: document.getElementById('email').value,
+                contact_number: document.getElementById('contact-number').value,
+                birth_date: document.getElementById('birth-date').value,
+                list_of_teachers: document.getElementById('teachers').value,
+                list_of_management_team: document.getElementById('management-team').value,
+                teachers_key: teacherKey,
+                management_key: managementKey
+            };
+
+            try {
+                const response = await fetch('http://localhost:3000/api/organization-head', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                if (response.ok) {
+                    document.getElementById('success-message').textContent = 'Organizer registered successfully! Redirecting...';
+                    setTimeout(() => {
+                        window.location.href = 'Organizer_Head.html';
+                    }, 2000);
+                } else {
+                    alert('Failed to register. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again.');
+            }
+        });
+    </script>
+</body>
+</html>

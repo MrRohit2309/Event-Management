@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plan Future Event</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #333;
+        }
+        .container {
+            width: 90%;
+            max-width: 700px;
+            padding: 30px;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 1s ease-in-out;
+        }
+        h1 {
+            text-align: center;
+            font-size: 1.8rem;
+            color: #6a1b9a;
+            margin-bottom: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, select, textarea, button {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 1rem;
+            width: 100%;
+        }
+        button {
+            background-color: #6a1b9a;
+            color: white;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #4a1579;
+        }
+        #result {
+            text-align: center;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .location-container {
+            display: flex;
+            align-items: center;
+            position: relative;
+            width: 100%;
+        }
+        .location-container input {
+            width: 85%; /* Makes space for the button */
+        }
+        .location-container button {
+            position: relative;
+            margin-left: 10px; /* Adds space between input and button */
+            width: 40px;
+            height: 40px;
+            font-size: 16px;
+            padding: 0;
+            background-color: #6a1b9a;
+            color: white;
+            border-radius: 50%;
+            cursor: pointer;
+            display: inline-block;
+        }
+        .location-container button:hover {
+            background-color: #4a1579;
+        }
+        .location-container span {
+            font-size: 0.9rem; /* Smaller font size */
+            color: #6a1b9a;
+            margin-left: 5px;
+            font-weight: bold; /* Make the text bold */
+            line-height: 40px; /* Ensure vertical centering */
+            white-space: nowrap; /* Prevent text from wrapping to the next line */
+            margin-top: 0px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Plan Future Event</h1>
+        <form id="event-form">
+            <!-- Existing fields -->
+            <label for="organizerName">Organizer Name:</label>
+            <input type="text" id="organizerName" name="organizerName" required />
+            
+            <label for="organizerEmail">Organizer Email:</label>
+            <input type="email" id="organizerEmail" name="organizerEmail" required />
+            
+            <label for="collegeName">College Name:</label>
+            <input type="text" id="collegeName" name="collegeName" required />
+            
+            <label for="eventName">Event Name:</label>
+            <input type="text" id="eventName" name="eventName" required />
+            
+            <label for="eventStartDate">Event Start Date:</label>
+            <input type="date" id="eventStartDate" name="eventStartDate" required />
+            
+            <label for="eventEndDate">Event End Date:</label>
+            <input type="date" id="eventEndDate" name="eventEndDate" required />
+            
+            <label for="eventTime">Event Time:</label>
+            <input type="time" id="eventTime" name="eventTime" required />
+            
+            <label for="eventType">Event Type:</label>
+            <select id="eventType" name="eventType" required>
+                <option value="seminar">Seminar</option>
+                <option value="workshop">Workshop</option>
+                <option value="sports">Sports</option>
+                <option value="cultural">Cultural Event</option>
+                <option value="hackathon">Hackathon</option>
+            </select>
+            
+            <label for="eventVenue">Event Venue:</label>
+            <input type="text" id="eventVenue" name="eventVenue" required />
+            
+            <!-- Location Field with Auto-Select Button -->
+            <label for="location">Event Location:</label>
+            <div class="location-container">
+                <input type="text" id="location" name="location" placeholder="Enter location or auto-select" required />
+                <button type="button" id="autoLocationButton" title="Auto-Select Location">&#x1F4CD;</button> <!-- Pin Emoji as button -->
+            </div>
+
+            <!-- Existing fields -->
+            <label for="targetAudience">Target Audience:</label>
+            <input type="text" id="targetAudience" name="targetAudience" required />
+            
+            <label for="expectedParticipants">Expected Participants:</label>
+            <input type="number" id="expectedParticipants" name="expectedParticipants" required />
+            
+            <label for="coordinator">Coordinator:</label>
+            <input type="text" id="coordinator" name="coordinator" required />
+            
+            <label for="budget">Budget:</label>
+            <input type="number" id="budget" name="budget" />
+            
+            <label for="agenda">Agenda:</label>
+            <textarea id="agenda" name="agenda" required></textarea>
+            
+            <label for="specialRequirements">Special Requirements:</label>
+            <textarea id="specialRequirements" name="specialRequirements"></textarea>
+            
+            <label for="registrationLink">Registration Link:</label>
+            <input type="url" id="registrationLink" name="registrationLink" required />
+            
+            <button type="submit">Submit</button>
+        </form>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        const form = document.getElementById('event-form');
+        const resultDiv = document.getElementById('result');
+        const autoLocationButton = document.getElementById('autoLocationButton');
+        const locationField = document.getElementById('location');
+        
+        // Your OpenCage API key
+        const apiKey = '';
+
+        // Fetch address using OpenCage API
+        function fetchAddress(latitude, longitude) {
+            const url = `https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=${apiKey}`; // Corrected URL
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.results && data.results.length > 0) {
+                        const address = data.results[0].formatted;
+                        locationField.value = address; // Set the location field to the address
+                    } else {
+                        locationField.value = 'Unable to fetch address.';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching address:', error);
+                    locationField.value = 'Error fetching address.';
+                });
+        }
+
+        // Handle auto-location
+        autoLocationButton.addEventListener('click', () => {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const { latitude, longitude } = position.coords;
+                        fetchAddress(latitude, longitude); // Get the address from latitude and longitude
+                    },
+                    (error) => {
+                        alert('Unable to fetch location. Please allow location access.');
+                        console.error('Geolocation error:', error);
+                    }
+                );
+            } else {
+                alert('Geolocation is not supported by your browser.');
+            }
+        });
+
+        // Handle form submission
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+            try {
+                const response = await fetch('http://localhost:3000/api/event-table', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data),
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    resultDiv.textContent = result.message;
+                    resultDiv.style.color = 'green';
+                } else {
+                    const errorResult = await response.json();
+                    throw new Error(errorResult.message);
+                }
+            } catch (error) {
+                resultDiv.textContent = error.message;
+                resultDiv.style.color = 'red';
+            }
+        });
+    </script>
+</body>
+</html>

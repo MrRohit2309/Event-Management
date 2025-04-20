@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+            color: #333;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px;
+            background-color: #9b4dff;
+            color: #ffffff;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .events-container {
+            display: flex;
+            overflow-x: auto; /* Allow horizontal scroll if there are too many cards */
+            padding: 20px;
+        }
+
+        .event-card {
+            background-color: #ffffff;
+            padding: 15px;
+            margin: 10px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 250px; /* Set width for each card */
+            max-width: 100%;
+            flex-shrink: 0; /* Prevent cards from shrinking */
+        }
+
+        .event-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .event-card p {
+            margin: 5px 0;
+        }
+
+        .event-card .event-date {
+            font-weight: bold;
+        }
+
+        .event-card .event-location {
+            font-style: italic;
+        }
+
+        .chat-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #9b4dff;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .chat-button:hover {
+            background-color: #8a38e7;
+        }
+
+        .chat-box {
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            width: 300px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chat-header {
+            background-color: #9b4dff;
+            color: #ffffff;
+            padding: 10px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .chat-input-container {
+            display: flex;
+            padding: 10px;
+            gap: 10px;
+        }
+
+        .chat-input-container input {
+            flex: 1;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .chat-input-container button {
+            background-color: #9b4dff;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        .chat-input-container button:hover {
+            background-color: #8a38e7;
+        }
+
+        /* Management team section styles */
+        .management-team-container {
+            padding: 20px;
+        }
+
+        .management-team-container ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .management-team-container li {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Teacher Dashboard</h1>
+    </header>
+    <main>
+        <!-- Upcoming Events Section -->
+        <section class="events-container">
+            <h2>Upcoming Events</h2>
+            <div id="events-list"></div>
+        </section>
+
+        <!-- Management Team Section -->
+        <section class="management-team-container">
+            <h2 class="label management-team"><i class="fas fa-users"></i> Management Team</h2>
+            <button onclick="fetchManagementTeam()">Fetch Management Team</button>
+            <ul class="team" id="team-list">
+                <!-- Dynamically populated team members will appear here -->
+            </ul>
+        </section>
+
+        <!-- Chat Button -->
+        <button class="chat-button" onclick="toggleChatBox()">💬</button>
+
+        <!-- Chat Box -->
+        <div class="chat-box" id="chat-box">
+            <div class="chat-header">Chat</div>
+            <div class="chat-input-container">
+                <input type="text" id="chat-input" placeholder="Type your message...">
+                <button onclick="sendMessage()">Send</button>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        // Function to retrieve URL parameters
+        function getParams() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return {
+                college_name: urlParams.get('college_name'),
+                email: urlParams.get('email'),
+                key: urlParams.get('key'),
+                role: urlParams.get('role')
+            };
+        }
+
+        // Function to fetch events from the backend
+        function fetchEvents() {
+            const { college_name } = getParams();
+
+            if (!college_name) {
+                alert('College name is required!');
+                return;
+            }
+
+            fetch(`http://localhost:3000/api/Teacher-Dashboard/events?college_name=${college_name}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        displayEvents(data.events);
+                    } else {
+                        document.getElementById('events-list').innerHTML = '<p>No upcoming events found for this college.</p>';
+                    }
+                })
+                .catch(err => {
+                    console.error('Error fetching events:', err);
+                    alert("Failed to fetch events. Please try again later.");
+                });
+        }
+
+        // Function to display events
+        function displayEvents(events) {
+            const eventsList = document.getElementById('events-list');
+            eventsList.innerHTML = ''; // Clear existing events
+
+            events.forEach(event => {
+                const eventCard = document.createElement('div');
+                eventCard.className = 'event-card';
+                eventCard.innerHTML = ` 
+                    <h3>${event.event_name}</h3>
+                    <p class="event-date">Date: ${new Date(event.event_date).toLocaleDateString()}</p>
+                    <p class="event-location">Location: ${event.event_location}</p>
+                    <p>Description: ${event.event_description}</p>
+                `;
+                eventsList.appendChild(eventCard);
+            });
+        }
+
+        // Function to fetch management team details
+        function fetchManagementTeam() {
+            const { college_name } = getParams();
+
+            if (!college_name) {
+                alert('College name is required to fetch the management team!');
+                return;
+            }
+
+            fetch(`http://localhost:3000/api/management-team?college_name=${encodeURIComponent(college_name)}`)
+                .then(response => response.json())
+                .then(data => {
+                    const teamList = document.getElementById('team-list');
+                    teamList.innerHTML = ''; // Clear the existing list
+
+                    if (data.success) {
+                        const managementTeam = data.management_team;
+
+                        if (managementTeam.length > 0) {
+                            managementTeam.forEach(name => {
+                                const listItem = document.createElement('li');
+                                listItem.textContent = name;
+                                teamList.appendChild(listItem);
+                            });
+                        } else {
+                            const listItem = document.createElement('li');
+                            listItem.textContent = 'No management team members available.';
+                            teamList.appendChild(listItem);
+                        }
+                    } else {
+                        const listItem = document.createElement('li');
+                        listItem.textContent = data.message || 'No management team details found.';
+                        teamList.appendChild(listItem);
+                    }
+                })
+                .catch(error => {
+                    console.error('Fetch error:', error);
+                    alert('Failed to fetch management team details. Please try again later.');
+                });
+        }
+
+        // Call the fetchEvents function on page load
+        window.onload = fetchEvents;
+
+        // Toggle chat box visibility
+        function toggleChatBox() {
+            const chatBox = document.getElementById('chat-box');
+            chatBox.style.display = chatBox.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        // Send a message and show an alert
+        function sendMessage() {
+            const chatInput = document.getElementById('chat-input');
+            const message = chatInput.value.trim();
+
+            if (message) {
+                alert(`Message sent: ${message}`);
+                chatInput.value = ''; // Clear the input field
+            } else {
+                alert('Please enter a message before sending.');
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Form</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('login_background.png') no-repeat center center/cover;
+            color: #333;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px;
+            background-color: #6a1b9a;
+            color: #ffffff;
+            font-size: 2.5rem;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Form Styles */
+        main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            height: 80vh;
+        }
+
+        form {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            max-width: 450px;
+            width: 100%;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #6a1b9a;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #b0bec5;
+            border-radius: 8px;
+            font-size: 1rem;
+            background-color: #f8f9fc;
+            transition: all 0.3s;
+        }
+
+        input:focus, select:focus {
+            border-color: #6a1b9a;
+            outline: none;
+            box-shadow: 0 0 8px rgba(106, 27, 154, 0.3);
+        }
+
+        button {
+            background-color: #6a1b9a;
+            color: #ffffff;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #4a148c;
+        }
+
+        button:active {
+            background-color: #9c4dcc;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 600px) {
+            form {
+                padding: 20px;
+            }
+
+            label {
+                font-size: 0.9rem;
+            }
+
+            button {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Login to Organization</h1>
+    </header>
+    <main>
+        <form id="login-form">
+            <div class="form-group">
+                <label for="role">Select Role:</label>
+                <select id="role" name="role" required onchange="toggleRoleFields()">
+                    <option value="">Select Role</option>
+                    <option value="Organizer">Organizer Head</option>
+                    <option value="Teacher">Teacher</option>
+                    <option value="Management">Management Team Member</option>
+                </select>
+            </div>
+            <div id="college-name-field" class="form-group">
+                <label for="college-name">College Name:</label>
+                <input type="text" id="college-name" name="college_name" required>
+            </div>
+            <div id="email-field" class="form-group">
+                <label for="email">Email ID:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div id="key-field" class="form-group" style="display: none;">
+                <label for="key">Key:</label>
+                <input type="text" id="key" name="key">
+            </div>
+            <button type="button" onclick="login()">Login</button>
+        </form>
+    </main>
+    <script>
+        function toggleRoleFields() {
+            const role = document.getElementById('role').value;
+            const keyField = document.getElementById('key-field');
+            const keyInput = document.getElementById('key');
+            if (role === 'Teacher' || role === 'Management') {
+                keyField.style.display = 'block';
+                keyInput.setAttribute('required', 'required');
+            } else {
+                keyField.style.display = 'none';
+                keyInput.removeAttribute('required');
+            }
+        }
+
+        function login() {
+            const collegeName = document.getElementById('college-name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const key = document.getElementById('key').value.trim();
+            const role = document.getElementById('role').value;
+
+            if (!role) {
+                alert('Please select a role.');
+                return;
+            }
+
+            if (!collegeName) {
+                alert('Please enter your college name.');
+                return;
+            }
+
+            if (!email) {
+                alert('Please enter your email.');
+                return;
+            }
+
+            if ((role === 'Teacher' || role === 'Management') && !key) {
+                alert('Please enter the key for your role.');
+                return;
+            }
+
+            fetch('http://localhost:3000/api/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ college_name: collegeName, email, key, role })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    const params = new URLSearchParams({ college_name: collegeName, email, key, role }).toString();
+                    if (role === 'Organizer') {
+                        window.location.href = `Organizer_Head.html?${params}`;
+                    } else if (role === 'Teacher') {
+                        window.location.href = `TeachersDashboard.html?${params}`;
+                    } else if (role === 'Management') {
+                        window.location.href = `EventManagementTeam.html?${params}`;
+                    }
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(err => console.error('Login Error:', err));
+        }
+    </script>
+</body>
+</html>

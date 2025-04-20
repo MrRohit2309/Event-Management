@@ -175,19 +175,19 @@
   <nav>
     <div class="logo">Eventify</div>
     <ul>
-      <li><a href="#">Home</a></li>
-      <li><a href="#">About Us</a></li>
-      <li><a href="#">Services</a></li>
-      <li><a href="#">Gallery</a></li>
-      <li><a href="#">Contact</a></li>
+      <li><a href="#home">Home</a></li>
+      <li><a href="#about">About Us</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#contact">Contact</a></li>
     </ul>
   </nav>
 
   <!-- Full-Screen Image Slider (Hero Section) -->
-  <div class="slider-container">
+  <div class="slider-container" id="home">
     <div class="slider">
       <img src="Images/img1.jpg" alt="Slide 1">
-      <img src="Images/img2.jpeg" alt="Slide 2">
+      <img src="Images/img2.jpg" alt="Slide 2">
       <img src="Images/img3.jpg" alt="Slide 3">
       <img src="Images/img4.jpg" alt="Slide 4">
       <img src="Images/img5.jpg" alt="Slide 5">
@@ -195,59 +195,158 @@
     </div>
   </div>
 
-    <main>
-      <h3 style="color: #7b4bb7; font-weight: 600; margin-bottom: 0;">OUR SERVICES</h3>
-      <h2 style="font-size: 2.4rem; font-weight: 700; margin-top: 10px;">Services By Eventify</h2>
-      <p style="max-width: 700px; margin: 0 auto 30px; font-size: 1rem; color: #555;">
-        Eventify is an easy-to-use event management platform designed for colleges. It helps students and organizations plan, manage, and execute events smoothly—from registration to coordination. Whether it's a fest, seminar, or conference, Eventify makes college events hassle-free and efficient.
-      </p>
+<!--About us Section-->
+<section id="about" style="padding: 60px 20px; text-align: center; background-color: #f9f9f9;">
+  <h2 style="font-size: 2.4rem; color: #4a90e2;">About Us</h2>
+  <p style="max-width: 800px; margin: 20px auto; font-size: 1.1rem; color: #555;">
+    At Eventify, we’re passionate about creating exceptional experiences. From weddings and corporate events to private parties and cultural gatherings, our team ensures each event is a masterpiece.
+  </p>
+
+  <h3 style="margin-top: 40px; font-size: 1.8rem; color: #333;">Meet the Developers</h3>
+
+  <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; margin-top: 30px;">
     
-      <!-- First Row (3 Boxes) -->
-      <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 30px; margin-bottom: 70px;">
-        <div class="rectangle" style="width: 300px;">
-          <img src="Images/img8.jpg" alt="Register Organization" style="width: 100%; height: 120px; object-fit: cover; border-radius: 8px;">
-          <h3 style="margin-top: 10px; font-size: 1.1rem;">Register Organization</h3>
-          <p style="font-size: 0.9rem;">If you're new & want to register your organisation, click here.</p>
-          <button class="register-btn" onclick="window.location.href='registration_organization.html'">Click Here!!</button>
-        </div>
-    
-        <div class="rectangle" style="width: 300px;">
-          <img src="Images/img9.jpg" alt="Management Portal" style="width: 100%; height: 120px; object-fit: cover; border-radius: 8px;">
-          <h3 style="margin-top: 10px; font-size: 1.1rem;">Management Portal</h3>
-          <p style="font-size: 0.9rem;">If you have already registered your organization, click here.</p>
-          <button class="register-btn" onclick="window.location.href='reg_login.html'">Click Here!!</button>
-        </div>
-    
-        <div class="rectangle" style="width: 300px;">
-          <img src="Images/img3.jpg" alt="Check For Events" style="width: 100%; height: 120px; object-fit: cover; border-radius: 8px;">
-          <h3 style="margin-top: 10px; font-size: 1.1rem;">Check For Events</h3>
-          <p style="font-size: 0.9rem;">Check the list of events and their respective college locations.</p>
-          <button class="register-btn" onclick="window.location.href='student_checking.html'">Click Here!!</button>
-        </div>
+    <!-- Developer 1 -->
+    <div style="width: 220px; background: #fff; padding: 20px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+      <img src="Images/dev1.jpg" alt="Dev 1" style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%; border: 4px solid #4a90e2; margin-bottom: 15px;">
+      <h4>Ishwari Bagade</h4>
+      <p style="font-size: 0.9rem; color: #777;">Frontend Developer</p>
+      <div>
+        <a href="#" style="margin: 0 8px; color: #0e76a8;">LinkedIn</a>
+        <a href="#" style="margin: 0 8px; color: #333;">GitHub</a>
       </div>
-    
-      <!-- Second Row (2 Boxes) -->
-      <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 30px; margin-top: 10px;">
-        <div class="rectangle" style="width: 300px;">
-          <img src="Images/img10.jpg" alt="Register Shop" style="width: 100%; height: 120px; object-fit: cover; border-radius: 8px;">
-          <h3 style="margin-top: 10px; font-size: 1.1rem;">Register Shop</h3>
-          <p style="font-size: 0.9rem;">If you're a new retailer, click here to register your shop.</p>
-          <button class="register-btn" onclick="window.location.href='retailer_registration.html'">Click Here!!</button>
-        </div>
-    
-        <div class="rectangle" style="width: 300px;">
-          <img src="Images/img11.jpg" alt="Retailer Login" style="width: 100%; height: 120px; object-fit: cover; border-radius: 8px;">
-          <h3 style="margin-top: 10px; font-size: 1.1rem;">Retailer Login</h3>
-          <p style="font-size: 0.9rem;">If your shop is already registered, log in here.</p>
-          <button class="register-btn" onclick="window.location.href='retailer_login.html'">Click Here!!</button>
-        </div>
+    </div>
+
+    <!-- Developer 2 -->
+    <div style="width: 220px; background: #fff; padding: 20px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+      <img src="Images/dev2.jpg" alt="Dev 2" style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%; border: 4px solid #4a90e2; margin-bottom: 15px;">
+      <h4>Rohit Sukale</h4>
+      <p style="font-size: 0.9rem; color: #777;">Backend Developer</p>
+      <div>
+        <a href="#" style="margin: 0 8px; color: #0e76a8;">LinkedIn</a>
+        <a href="#" style="margin: 0 8px; color: #333;">GitHub</a>
       </div>
-    </main>
-    
-    
+    </div>
+
+    <!-- Developer 3 -->
+    <div style="width: 220px; background: #fff; padding: 20px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+      <img src="Images/dev3.jpg" alt="Dev 3" style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%; border: 4px solid #4a90e2; margin-bottom: 15px;">
+      <h4>Samruddhi Bate</h4>
+      <p style="font-size: 0.9rem; color: #777;">UI/UX Designer</p>
+      <div>
+        <a href="#" style="margin: 0 8px; color: #0e76a8;">LinkedIn</a>
+        <a href="#" style="margin: 0 8px; color: #333;">GitHub</a>
+      </div>
+    </div>
+
+    <!-- Developer 4 -->
+    <div style="width: 220px; background: #fff; padding: 20px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+      <img src="Images/dev4.jpg" alt="Dev 4" style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%; border: 4px solid #4a90e2; margin-bottom: 15px;">
+      <h4>Priydarshani Kamble</h4>
+      <p style="font-size: 0.9rem; color: #777;">Database Engineer</p>
+      <div>
+        <a href="#" style="margin: 0 8px; color: #0e76a8;">LinkedIn</a>
+        <a href="#" style="margin: 0 8px; color: #333;">GitHub</a>
+      </div>
+    </div>
+
+    <!-- Developer 5 -->
+    <div style="width: 220px; background: #fff; padding: 20px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+      <img src="Images/dev5.jpg" alt="Dev 5" style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%; border: 4px solid #4a90e2; margin-bottom: 15px;">
+      <h4>Purva Shirke</h4>
+      <p style="font-size: 0.9rem; color: #777;">Testing & QA</p>
+      <div>
+        <a href="#" style="margin: 0 8px; color: #0e76a8;">LinkedIn</a>
+        <a href="#" style="margin: 0 8px; color: #333;">GitHub</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<main>
+  <h3 style="color: #7b4bb7; font-weight: 600; margin-bottom: 0;">OUR SERVICES</h3>
+  <h2 style="font-size: 2.4rem; font-weight: 700; margin-top: 10px;">Services By Eventify</h2>
+  <p style="max-width: 700px; margin: 0 auto 30px; font-size: 1rem; color: #555;">
+    Eventify is an easy-to-use event management platform designed for colleges. It helps students and organizations plan, manage, and execute events smoothly—from registration to coordination. Whether it's a fest, seminar, or conference, Eventify makes college events hassle-free and efficient.
+  </p>
+
+  <!-- First Row (3 Boxes) -->
+  <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 30px; margin-bottom: 70px;">
+    <div class="rectangle" style="width: 300px;">
+      <img src="Images/img8.jpg" alt="Register Organization" style="width: 100%; height: 120px; object-fit: cover; border-radius: 8px;">
+      <h3 style="margin-top: 10px; font-size: 1.1rem;">Register Organization</h3>
+      <p style="font-size: 0.9rem;">If you're new & want to register your organisation, click here.</p>
+      <button class="register-btn" onclick="window.location.href='registration_organization.html'">Click Here!!</button>
+    </div>
+
+    <div class="rectangle" style="width: 300px;">
+      <img src="Images/img9.jpg" alt="Management Portal" style="width: 100%; height: 120px; object-fit: cover; border-radius: 8px;">
+      <h3 style="margin-top: 10px; font-size: 1.1rem;">Management Portal</h3>
+      <p style="font-size: 0.9rem;">If you have already registered your organization, click here.</p>
+      <button class="register-btn" onclick="window.location.href='reg_login.html'">Click Here!!</button>
+    </div>
+
+    <div class="rectangle" style="width: 300px;">
+      <img src="Images/img3.jpg" alt="Check For Events" style="width: 100%; height: 120px; object-fit: cover; border-radius: 8px;">
+      <h3 style="margin-top: 10px; font-size: 1.1rem;">Check For Events</h3>
+      <p style="font-size: 0.9rem;">Check the list of events and their respective college locations.</p>
+      <button class="register-btn" onclick="window.location.href='student_checking.html'">Click Here!!</button>
+    </div>
+  </div>
+
+  <!-- Second Row (2 Boxes) -->
+  <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 30px; margin-top: 10px;">
+    <div class="rectangle" style="width: 300px;">
+      <img src="Images/img10.jpg" alt="Register Shop" style="width: 100%; height: 120px; object-fit: cover; border-radius: 8px;">
+      <h3 style="margin-top: 10px; font-size: 1.1rem;">Register Shop</h3>
+      <p style="font-size: 0.9rem;">If you're a new retailer, click here to register your shop.</p>
+      <button class="register-btn" onclick="window.location.href='retailer_registration.html'">Click Here!!</button>
+    </div>
+
+    <div class="rectangle" style="width: 300px;">
+      <img src="Images/img11.jpg" alt="Retailer Login" style="width: 100%; height: 120px; object-fit: cover; border-radius: 8px;">
+      <h3 style="margin-top: 10px; font-size: 1.1rem;">Retailer Login</h3>
+      <p style="font-size: 0.9rem;">If your shop is already registered, log in here.</p>
+      <button class="register-btn" onclick="window.location.href='retailer_login.html'">Click Here!!</button>
+    </div>
+  </div>
+</main>
+
+
+  <!--Gallery Section-->
+  <section id="gallery" style="padding: 60px 20px; background-color: #fff; text-align: center;">
+    <h2 style="font-size: 2.4rem; color: #4a90e2;">Gallery</h2>
+    <p style="max-width: 700px; margin: 10px auto 30px; color: #555;">
+      A glimpse into some of our memorable events.
+    </p>
+    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;">
+      <img src="Images/img1.jpg" alt="Event 1" style="width: 300px; height: 200px; object-fit: cover; border-radius: 10px;">
+      <img src="Images/img2.jpg" alt="Event 2" style="width: 300px; height: 200px; object-fit: cover; border-radius: 10px;">
+      <img src="Images/img3.jpg" alt="Event 3" style="width: 300px; height: 200px; object-fit: cover; border-radius: 10px;">
+      <img src="Images/img4.jpg" alt="Event 4" style="width: 300px; height: 200px; object-fit: cover; border-radius: 10px;">
+    </div>
+  </section>
 
   <footer>
     &copy; 2025 Eventify | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a>
+  
+    <!--Contact section-->
+  
+  <section id="contact" style="padding: 60px 20px; background-color: #f0f4ff; text-align: center;">
+  <h2 style="font-size: 2.4rem; color: #4a90e2;">Contact Us</h2>
+  <p style="max-width: 700px; margin: 10px auto 30px; color: #555;">
+    Have questions or want to plan your next big event? Get in touch!
+  </p>
+  <form style="max-width: 600px; margin: 0 auto; text-align: left;">
+    <input type="text" placeholder="Your Name" style="width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 8px; border: 1px solid #ccc;">
+    <input type="email" placeholder="Your Email" style="width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 8px; border: 1px solid #ccc;">
+    <textarea placeholder="Your Message" rows="5" style="width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 8px; border: 1px solid #ccc;"></textarea>
+    <button type="submit" class="register-btn">Send Message</button>
+  </form>
+</section>
+
+
   </footer>
 </body>
 </html>
